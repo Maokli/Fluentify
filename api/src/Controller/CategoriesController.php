@@ -9,10 +9,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 
-#[Route('/api', name: 'app_auth')]
+#[Route('/api')]
 class CategoriesController extends AbstractController
 {
-    #[Route('/categories', name: 'app_categories', methods: "GET")]
+    #[Route('/categories', methods: "GET")]
     public function index(ManagerRegistry $doctrine): JsonResponse
     {
         // get the entities from DB
@@ -32,7 +32,7 @@ class CategoriesController extends AbstractController
     }
 
     //TODO: make this available to admins only
-    #[Route('/admin/categories/add', name: 'add_categoriy', methods: "POST")]
+    #[Route('/admin/categories/add', methods: "POST")]
     public function add(ManagerRegistry $doctrine, Request $request): JsonResponse
     {
         // get the entities from DB
