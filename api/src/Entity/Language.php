@@ -21,6 +21,12 @@ class Language
     #[ORM\OneToMany(mappedBy: 'language', targetEntity: Quizz::class)]
     private Collection $quizzs;
 
+    #[ORM\Column(length: 1000)]
+    private ?string $photoUrl = null;
+
+    #[ORM\Column(length: 1000)]
+    private ?string $description = null;
+
     public function __construct()
     {
         $this->quizzs = new ArrayCollection();
@@ -69,6 +75,30 @@ class Language
                 $quizz->setLanguage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhotoUrl(): ?string
+    {
+        return $this->photoUrl;
+    }
+
+    public function setPhotoUrl(string $photoUrl): self
+    {
+        $this->photoUrl = $photoUrl;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
