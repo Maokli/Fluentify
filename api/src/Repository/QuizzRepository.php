@@ -39,6 +39,15 @@ class QuizzRepository extends ServiceEntityRepository
         }
     }
 
+    public function GetTotalQuizzCountByLanguages($value): ?Quizz
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u')
+            ->innerJoin('u.language','l')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Quizz[] Returns an array of Quizz objects
 //     */
@@ -53,6 +62,7 @@ class QuizzRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
+
 
 //    public function findOneBySomeField($value): ?Quizz
 //    {
