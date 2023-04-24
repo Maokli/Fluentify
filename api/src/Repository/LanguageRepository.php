@@ -54,13 +54,13 @@ class LanguageRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Language
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function findOneById($id): ?Language
+   {
+       return $this->createQueryBuilder('l')
+           ->andWhere('l.id = :val')
+           ->setParameter('val', $id)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
 }
