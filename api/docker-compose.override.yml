@@ -1,6 +1,19 @@
 version: '3'
 
 services:
+  myapp:
+    image: 'bitnami/symfony:1'
+    ports:
+      - '8000:8000'
+    volumes:
+      - '.:/app'
+    environment:
+      - SYMFONY_PROJECT_NAME=myapp
+      - MARIADB_PORT_NUMBER=5432
+      - MARIADB_USER=bobby
+      - MARIADB_PASSWORD=tables
+      - MARIADB_DATABASE=myapp
+
 ###> doctrine/doctrine-bundle ###
   database:
     ports:
