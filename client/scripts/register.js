@@ -19,10 +19,17 @@ function register(email, password, firstName, lastName, preferredLanguages) {
     body: raw,
     redirect: "follow",
   };
-
   fetch("http://127.0.0.1:8000/api/register", requestOptions)
-    .then((response) => response.json())
-    .catch((error) => console.log("error", error));
+  .then((response) => response.json())
+  .then((response) => {
+    console.log(response.message);
+    if (response.message == "Registered Successfully") {
+      window.location.href = "login.html";
+    }
+  })
+  .catch((error) => console.log("error", error));
+
+  
 }
 function goodpass(pass){
   var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
@@ -33,11 +40,13 @@ function submitForm(event) {
   event.preventDefault();
   const password = event.target.elements.password.value;
   const a = document.querySelector('div.mb-3#message');  
-  console.log(a);
+  
   if(!goodpass(password))
   { 
     a.innerHTML = "Password must contain at least 8 characters, including UPPER/lowercase and numbers";
     return;
+  }else{
+    a.innerHTML = "";
   }
   const firstName = event.target.elements.firstName.value;
   const lastName = event.target.elements.lastName.value;
@@ -47,8 +56,8 @@ function submitForm(event) {
 
   var S = "";
   for (var i = 0; i < par.length; i++) {
+    console.log(par[i].value);
     S += par[i].value + "/";
   }
-
   register(email, password, firstName, lastName, S);
 }
