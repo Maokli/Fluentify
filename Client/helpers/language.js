@@ -1,5 +1,5 @@
 import axiosInstance from './axiosInstanceClient.js';
-
+//creating a card for each language
 function createLanguageCard(language) {
   return `
     <div class="col-md-3 mb-4">
@@ -21,8 +21,10 @@ function createLanguageCard(language) {
 
 axiosInstance.get('/languages')
   .then(function (response) {
+    //getting languages from the database
     const languages=response.data;
     const cardContainer= document.querySelector('#cardContainer');
+    //injecting each card int the card container
     languages.forEach(language=> {
       const card = createLanguageCard(language);
       const cardElement = document.createRange().createContextualFragment(card).firstElementChild;
