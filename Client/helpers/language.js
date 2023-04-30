@@ -1,4 +1,4 @@
-import instance from './axiosClient.js';
+import axiosInstance from './axiosInstanceClient.js';
 
 function createLanguageCard(language) {
   return `
@@ -19,7 +19,7 @@ function createLanguageCard(language) {
   `;
 }
 
-instance.get('/languages')
+axiosInstance.get('/languages')
   .then(function (response) {
     const languages=response.data;
     const cardContainer= document.querySelector('#cardContainer');
