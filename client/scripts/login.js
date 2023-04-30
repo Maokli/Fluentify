@@ -25,6 +25,10 @@ function login(email, password) {
           // after login page redirect to welcome page 
             window.location.href = "welcome.html";
         }
+        else{
+          const a = document.querySelector('div.mb-3#message'); 
+          a.innerHTML = "Invalid email or password";
+        }
     })
     .catch((error) => console.log("error", error));
 }
