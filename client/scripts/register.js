@@ -35,11 +35,23 @@ function goodpass(pass){
   var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
   return regex.test(pass);
 }
+function goodemail(email){
+  var regex = /\S+@\S+\.\S+/;
+  return regex.test(email);
+}
 
 function submitForm(event) {
   event.preventDefault();
   const password = event.target.elements.password.value;
-  const a = document.querySelector('div.mb-3#message');  
+  const a = document.querySelector('div.mb-3#message'); 
+  const email = event.target.elements.email.value;
+  if(!goodemail(email))
+  {
+    a.innerHTML = "Email must be valid";
+    return;
+  }else{
+    a.innerHTML = "";
+  } 
   
   if(!goodpass(password))
   { 
@@ -48,11 +60,11 @@ function submitForm(event) {
   }else{
     a.innerHTML = "";
   }
+  
   const firstName = event.target.elements.firstName.value;
   const lastName = event.target.elements.lastName.value;
-  const email = event.target.elements.email.value;
+ 
   const par = event.target.elements.preferredLanguages.selectedOptions;
-    // check the validity of the email 
 
   var S = "";
   for (var i = 0; i < par.length; i++) {
