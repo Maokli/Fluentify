@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 use App\Entity\Quizz;
+
+use App\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
