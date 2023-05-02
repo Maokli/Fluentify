@@ -27,6 +27,9 @@ class Quizz
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
+    #[ORM\Column(length: 1000)]
+    private ?string $options = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,18 @@ class Quizz
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getOptions(): ?string
+    {
+        return $this->options;
+    }
+
+    public function setOptions(string $options): self
+    {
+        $this->options = $options;
 
         return $this;
     }
