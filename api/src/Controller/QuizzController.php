@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
+use App\Entity\Language;
 use App\Entity\Quizz;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,22 +31,6 @@ class QuizzController extends AbstractController
             'option' => $quizz->getOptions(),
         ];
     }
-      //extract request body
-      $body = json_decode($request->getContent());
-      $categoryId = $body->categoryId;
-      $languageId = $body->languageId;
-      $questions = $body->questions;
-      $options = $body->options;
-      $answers = $body->answers;
-      // create entity
-      $quizz = new Quizz();
-
-      // save
-      $entityManager->persist($quizz);
-      $entityManager->flush();
-
-        return new JsonResponse($response, 200);
-    }
 
     #[Route('/quizz/byCategoryAndLanguage/{categoryId}/{languageId}', methods: ['GET'])]
     public function getQuizzsByGategoryAndLanguage(ManagerRegistry $doctrine, int $categoryId, int $languageId): JsonResponse
@@ -62,5 +48,42 @@ class QuizzController extends AbstractController
         }
 
         return new JsonResponse($response, 200);
+    }
+    
+    //TODO: make this available to admins only
+    #[Route('/admin/quizz/add', methods: "POST")]
+    public function add(ManagerRegistry $doctrine, Request $request): JsonResponse
+    {
+        // get the entities from DB
+        $entityManager = $doctrine->getManager();
+
+        //extract request body
+        $body = json_decode($request->getContent());
+        $categoryId = $body->categoryId;
+        $languageId = $body->languageId;
+        $questions = $body->questions;
+        $options = $body->options;
+        $answers = $body->answers;
+
+        // getting join entities
+        $languageRepo = $entityManager->getRepository(Language::class);
+        $categoriesRepo = $entityManager->getRepository(Category::class);
+
+        $language = $languageRepo->findOneByID($languageId);
+        $category = $categoriesRepo->findOneByID($categoryId);
+
+        // create entity
+        $quizz = new Quizz();
+        $quizz->setLanguage($language);
+        $quizz->setCategory($category);
+        $quizz->setQuestions($questions);
+        $quizz->setOptions($options);
+        $quizz->setAnswers($answers);
+
+        // save
+        $entityManager->persist($quizz);
+        $entityManager->flush();
+
+        return $this->json(["message" => "Added Successfully"]);
     }
 }

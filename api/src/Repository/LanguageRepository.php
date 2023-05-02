@@ -39,6 +39,18 @@ class LanguageRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * @return Language[] Returns an array of Category objects
+    */
+    public function findAll(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Language[] Returns an array of Language objects
 //     */

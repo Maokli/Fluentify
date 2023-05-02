@@ -22,7 +22,7 @@ class UserQuizz
     private ?User $owner = null;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $solved = null;
+    private ?int $solved = null;
 
     public function getId(): ?int
     {
@@ -53,12 +53,12 @@ class UserQuizz
         return $this;
     }
 
-    public function getSolved(): ?bool
+    public function getSolved(): ?int
     {
         return $this->solved;
     }
 
-    public function setSolved(?bool $solved): self
+    public function setSolved(?int $solved): self
     {
         $this->solved = $solved;
 

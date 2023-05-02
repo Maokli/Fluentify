@@ -60,4 +60,14 @@ class CategoryRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findOneById($id): ?Category
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }
