@@ -16,22 +16,20 @@ function login(email, password) {
     body: raw,
     redirect: "follow",
   };
-
+  function showInvalidCredentials() {
+    const a = document.querySelector('div.mb-3#message'); 
+    a.innerHTML = "Invalid email or password";
+  }
   fetch("http://127.0.0.1:8000/api/login_check", requestOptions)
     .then((response) => response.json())
-    .then((result) => localStorage.setItem("token", result.token))
-    .then((headers)=> {
-        if (headers.status == 200) {
-          // after login page redirect to welcome page 
-            window.location.href = "welcome.html";
-        }
-        else{
-          const a = document.querySelector('div.mb-3#message'); 
-          a.innerHTML = "Invalid email or password";
-        }
+    .then((result) =>  {
+        localStorage.setItem("token", result.token)
+        // after login page redirect to dashboard page 
+        window.location.href = "dashboard.html";
     })
-    .catch((error) => console.log("error", error));
+    .catch((error) => showInvalidCredentials());
 }
+
 function submitForm(event) {
     event.preventDefault();
     const email = event.target.elements.email.value;
