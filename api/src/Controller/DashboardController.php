@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Language;
-use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,6 +29,9 @@ class DashboardController extends AbstractController
             ], 404);
         
         $userLanguages = explode("/",$userInDb->getPreferredLanguages());
+        $userLanguages = array_filter($userLanguages, function ($value) {
+            return !empty($value);
+        });
         $data = [];
         
         foreach ($userLanguages as $userLanguage)
