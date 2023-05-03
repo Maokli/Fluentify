@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Helpers;
 
 #[Route('/api', name: 'app_auth')]
 class DashboardController extends AbstractController
@@ -20,11 +21,9 @@ class DashboardController extends AbstractController
         $languagesRepo = $entityManager->getRepository(Language::class);
         $headers = apache_request_headers();
         $token = $headers['Authorization'];
-        $tokenParts = explode(".", $token);
-        $tokenPayload = base64_decode($tokenParts[1]);
-        $jwtPayload = json_decode($tokenPayload);
+        
 
-        $userInDb = $entityManager->getRepository(User::class)->findOneByEmail($jwtPayload->username);
+        $userInDb = Helpers\getUserFromToken($entityManager, $token);
         if($userInDb == null)
             return $this->json([
                 'Error' => 'No user exists with this Email',
