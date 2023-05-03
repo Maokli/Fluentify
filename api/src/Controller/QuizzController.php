@@ -13,30 +13,6 @@ use Doctrine\Persistence\ManagerRegistry;
 class QuizzController extends AbstractController
 {
 
-  //TODO: make this available to admins only
-  #[Route('/admin/quizz/add', methods: "POST")]
-  public function add(ManagerRegistry $doctrine, Request $request): JsonResponse
-  {
-      // get the entities from DB
-      $entityManager = $doctrine->getManager();
-
-      //extract request body
-      $body = json_decode($request->getContent());
-      $categoryId = $body->categoryId;
-      $languageId = $body->languageId;
-      $questions = $body->questions;
-      $options = $body->options;
-      $answers = $body->answers;
-      // create entity
-      $auizz = new Quizz();
-
-      // save
-      $entityManager->persist($auizz);
-      $entityManager->flush();
-
-      return $this->json(["message" => "Added Successfully"]);
-  }
-
     #[Route('/quizz/{id}', methods:"GET")]
     public function getQuizzById(ManagerRegistry $doctrine, Request $request, int $id) : JsonResponse
     {
