@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Quizz;
+use App\Entity\Quizz;   
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,28 +13,57 @@ use Doctrine\Persistence\ManagerRegistry;
 class QuizzController extends AbstractController
 {
 
-  //TODO: make this available to admins only
-  #[Route('/admin/quizz/add', methods: "POST")]
-  public function add(ManagerRegistry $doctrine, Request $request): JsonResponse
-  {
-      // get the entities from DB
-      $entityManager = $doctrine->getManager();
+    #[Route('/quizz/{id}', methods:"GET")]
+    public function getQuizzById(ManagerRegistry $doctrine, Request $request, int $id) : JsonResponse
+    {
+        $entityManager = $doctrine->getManager();
+        $quizz = $entityManager->getRepository(Quizz::class)->findOneByID($id);
 
-      //extract request body
-      $body = json_decode($request->getContent());
-      $categoryId = $body->categoryId;
-      $languageId = $body->languageId;
-      $questions = $body->questions;
-      $options = $body->options;
-      $answers = $body->answers;
-      // create entity
-      $auizz = new Quizz();
+        if (!$quizz) {
+            return new JsonResponse(['error' => 'Quizz not found'], 404);
+        }
 
-      // save
-      $entityManager->persist($auizz);
-      $entityManager->flush();
+        $response = [
+            'id' => $quizz->getId(),
+            'question' => $quizz->getQuestions(),
+            'option' => $quizz->getOptions(),
+        ];
 
-      return $this->json(["message" => "Added Successfully"]);
-  }
+        return new JsonResponse($response, 200);
+    }
+    #[Route('/quizz/language/{languageId}', methods: ['GET'])]
+    public function getQuizzsByLanguage(ManagerRegistry $doctrine, int $languageId): JsonResponse
+    {
+        $entityManager = $doctrine->getManager();
+        $quizzList = $entityManager->getRepository(Quizz::class)->findByLanguageid($languageId);
 
+        $response = [];
+        foreach ($quizzList as $quizz) {
+            $response[] = [
+                'id' => $quizz->getId(),
+                'question' => $quizz->getQuestions(),
+                'option' =>  $quizz->getOptions(),
+            ];
+        }
+
+        return new JsonResponse($response, 200);
+    }
+
+    #[Route('/quizz/category/{category}', methods: ['GET'])]
+    public function getQuizzsByGategories(ManagerRegistry $doctrine, int $category): JsonResponse
+    {
+        $entityManager = $doctrine->getManager();
+        $quizzList = $entityManager->getRepository(Quizz::class)->findByCategory($category);
+
+        $response = [];
+        foreach ($quizzList as $quizz) {
+            $response[] = [
+                'id' => $quizz->getId(),
+                'question' => $quizz->getQuestions(),
+                'option' =>  $quizz->getOptions(),
+            ];
+        }
+
+        return new JsonResponse($response, 200);
+    }
 }
