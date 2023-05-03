@@ -47,6 +47,34 @@ class QuizzRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findOneByID($id): ?Quizz
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    public function findByLanguageid(int  $languageid): array
+    {
+        return $this->createQueryBuilder('q')
+        ->join('q.language', 'l')
+        ->andWhere('l.id = :languageId')
+        ->setParameter('languageId', $languageid)
+        ->getQuery()
+        ->getResult();
+    }
+    public function findByCategory(int $categoryid):array
+    {
+        return $this->createQueryBuilder('q')
+            ->join('q.category', 'l')
+            ->andWhere('l.id = :categoryId')
+            ->setParameter('categoryId', $categoryid)
+            ->getQuery()
+            ->getResult();
+    }
+
 
 //    /**
 //     * @return Quizz[] Returns an array of Quizz objects
