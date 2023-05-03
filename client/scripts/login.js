@@ -35,5 +35,4 @@ function submitForm(event) {
     const email = event.target.elements.email.value;
     const password = event.target.elements.password.value;
     login(email, password);
-    console.log(email, password);
   }
