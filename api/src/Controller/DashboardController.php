@@ -40,8 +40,8 @@ class DashboardController extends AbstractController
             $totalQuizzesByLanguage = $languageInDb->getQuizzs()->count();
             $solvedQuizzes = $userInDb->getUserQuizzes()->count();
             $data[]= [
-                "languageId" => $languageInDb->id,
-                "languageName" => $languageInDb->name,
+                "languageId" => $languageInDb->getId(),
+                "languageName" => $languageInDb->getName(),
                 "progress" => $solvedQuizzes / $totalQuizzesByLanguage,
             ];
         }
