@@ -28,6 +28,20 @@ class QuizzController extends AbstractController
             'question' => $quizz->getQuestions(),
             'option' => $quizz->getOptions(),
         ];
+    }
+      //extract request body
+      $body = json_decode($request->getContent());
+      $categoryId = $body->categoryId;
+      $languageId = $body->languageId;
+      $questions = $body->questions;
+      $options = $body->options;
+      $answers = $body->answers;
+      // create entity
+      $quizz = new Quizz();
+
+      // save
+      $entityManager->persist($quizz);
+      $entityManager->flush();
 
         return new JsonResponse($response, 200);
     }
