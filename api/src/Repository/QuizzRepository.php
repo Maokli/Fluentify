@@ -56,21 +56,16 @@ class QuizzRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    public function findByLanguageid(int  $languageid): array
+    
+    public function findByCategoryAndLanguage(int $categoryid, int $languageId):array
     {
         return $this->createQueryBuilder('q')
-        ->join('q.language', 'l')
-        ->andWhere('l.id = :languageId')
-        ->setParameter('languageId', $languageid)
-        ->getQuery()
-        ->getResult();
-    }
-    public function findByCategory(int $categoryid):array
-    {
-        return $this->createQueryBuilder('q')
-            ->join('q.category', 'l')
-            ->andWhere('l.id = :categoryId')
+            ->join('q.language', 'l')
+            ->andWhere('l.id = :languageId')
+            ->join('q.category', 'c')
+            ->andWhere('c.id = :categoryId')
             ->setParameter('categoryId', $categoryid)
+            ->setParameter('languageId', $languageId)
             ->getQuery()
             ->getResult();
     }

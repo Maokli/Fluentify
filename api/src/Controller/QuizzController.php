@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Controller;
-
-use App\Entity\Quizz;   
+use App\Entity\Quizz;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,29 +30,12 @@ class QuizzController extends AbstractController
 
         return new JsonResponse($response, 200);
     }
-    #[Route('/quizz/language/{languageId}', methods: ['GET'])]
-    public function getQuizzsByLanguage(ManagerRegistry $doctrine, int $languageId): JsonResponse
+
+    #[Route('/quizz/byCategoryAndLanguage/{categoryId}/{languageId}', methods: ['GET'])]
+    public function getQuizzsByGategoryAndLanguage(ManagerRegistry $doctrine, int $categoryId, int $languageId): JsonResponse
     {
         $entityManager = $doctrine->getManager();
-        $quizzList = $entityManager->getRepository(Quizz::class)->findByLanguageid($languageId);
-
-        $response = [];
-        foreach ($quizzList as $quizz) {
-            $response[] = [
-                'id' => $quizz->getId(),
-                'question' => $quizz->getQuestions(),
-                'option' =>  $quizz->getOptions(),
-            ];
-        }
-
-        return new JsonResponse($response, 200);
-    }
-
-    #[Route('/quizz/category/{category}', methods: ['GET'])]
-    public function getQuizzsByGategories(ManagerRegistry $doctrine, int $category): JsonResponse
-    {
-        $entityManager = $doctrine->getManager();
-        $quizzList = $entityManager->getRepository(Quizz::class)->findByCategory($category);
+        $quizzList = $entityManager->getRepository(Quizz::class)->findByCategoryAndLanguage($categoryId, $languageId);
 
         $response = [];
         foreach ($quizzList as $quizz) {
