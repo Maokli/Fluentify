@@ -1,4 +1,4 @@
-function register(email, password, firstName, lastName, preferredLanguages) {
+function register(email, password, firstName, lastName) {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Access-Control-Allow-Origin", "*");
@@ -10,7 +10,6 @@ function register(email, password, firstName, lastName, preferredLanguages) {
     password: password,
     firstName: firstName,
     lastName: lastName,
-    preferredLanguages: preferredLanguages,
   });
 
   var requestOptions = {
@@ -64,12 +63,5 @@ function submitForm(event) {
   const firstName = event.target.elements.firstName.value;
   const lastName = event.target.elements.lastName.value;
  
-  const par = event.target.elements.preferredLanguages.selectedOptions;
-
-  var S = "";
-  for (var i = 0; i < par.length; i++) {
-    console.log(par[i].value);
-    S += par[i].value + "/";
-  }
-  register(email, password, firstName, lastName, S);
+  register(email, password, firstName, lastName);
 }
