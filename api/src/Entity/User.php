@@ -32,7 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private $password;
 
-    #[ORM\OneToMany(mappedBy: 'user_quizz', targetEntity: UserQuizz::class)]
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: UserQuizz::class)]
     private Collection $userQuizzes;
 
     #[ORM\Column(length: 255)]
