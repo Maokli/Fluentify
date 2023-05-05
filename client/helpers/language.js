@@ -31,7 +31,6 @@ axiosInstance.get('/languages')
       cardContainer.appendChild(cardElement);
     });
     
-    
   })
   .catch(function (error) {
     console.log(error);
