@@ -27,8 +27,7 @@ class AuthController extends AbstractController
         $plaintextPassword = $body->password;
         $firstName = $body->firstName;
         $lastName = $body->lastName;
-        $preferredLanguages = $body->preferredLanguages;
-        
+
         // create user entity and hash ( this would normally create a salt idk )
         $user = new User();
         $hashedPassword = $passwordHasher->hashPassword(
@@ -40,11 +39,10 @@ class AuthController extends AbstractController
         $user->setEmail($email);
         $user->setFirstName($firstName);
         $user->setLastName($lastName);
-        $user->setPreferredLanguages($preferredLanguages);
         // save to db
         $em->persist($user);
         $em->flush();
-  
+
         // inform the user
         return $this->json(['message' => 'Registered Successfully']);
     }
