@@ -60,4 +60,5 @@ function submitForm(event) {
   const lastName = event.target.elements.lastName.value;
  
   register(email, password, firstName, lastName);
+  register(email, password, firstName, lastName);
 }
