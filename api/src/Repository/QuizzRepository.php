@@ -67,6 +67,6 @@ class QuizzRepository extends ServiceEntityRepository
             ->setParameter('categoryId', $categoryid)
             ->setParameter('languageId', $languageId)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
     }
 }
