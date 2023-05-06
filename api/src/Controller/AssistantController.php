@@ -24,20 +24,20 @@ class AssistantController extends AbstractController
         // map the properties to variables
         $language = $body->language;
         $level = $body->level;
-        $userPrompt = $body->prompt;
-
-        // build the final prompt
-        $prompt = 'You are Fluentify Assistant AI, start a simple conversation with me as a ' . $level . ' ' . $language . 'speaker.\n' . $userPrompt;
+        // initial prompt
+        $prompt = 'You are Fluentify Assistant AI, start a simple conversation with me as a ' . $level . ' ' . $language . 'speaker.';
+        $messages = $body->messages ?? array(['role' => 'system', 'content' => $prompt]);
 
         // request openAi API
         $result = $client->chat()->create([
             'model' => 'gpt-3.5-turbo',
-            'messages' => array(['role' => 'user', 'content' => $prompt]),
+            'messages' => $messages,
         ]);
 
         // return the first result
         return $this->json([
-            'message' => $result['choices'][0]['message']["content"],
+            'history' => $messages,
+            'response' => $result['choices'][0]['message']["content"],
         ]);
     }
 }
