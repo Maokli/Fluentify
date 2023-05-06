@@ -52,6 +52,19 @@ class QuizzController extends AbstractController
         return new JsonResponse($response, 200);
     }
     
+    #[Route('/quizz/check', methods: ['POST'])]
+    public function checkQuizzAnswer( ManagerRegistry $doctrine , Request $request) : JsonResponse
+    {
+        $entityManager = $doctrine->getManager();
+        $body = json_decode($request->getContent());
+        $quizzId = $body->quizzId;
+        $answer = $body->answer;
+        $quizz = $entityManager->getRepository(Quizz::class)->findOneByID($quizzId);
+        $correctAnswer = $quizz->getAnswers();
+        $response = [
+            'Answer' => $answer == $correctAnswer,
+        ];
+    }
     //TODO: make this available to admins only
     #[Route('/admin/quizz/add', methods: "POST")]
     public function add(ManagerRegistry $doctrine, Request $request): JsonResponse
