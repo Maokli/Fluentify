@@ -1,3 +1,5 @@
+import { showLoader, hideLoader } from "./loader.js";
+
 const axiosInstance = axios.create({
     baseURL: 'http://localhost:8000/api',
     headers: {
@@ -8,4 +10,21 @@ const axiosInstance = axios.create({
       "Access-Control-Max-Age": "3600"
     }
 });
+
+axiosInstance.interceptors.request.use((config) => {
+  showLoader();
+  return config;
+});
+axiosInstance.interceptors.response.use(
+  (response) => {
+      hideLoader();
+      return Promise.resolve(response);
+  },
+  (error) => {
+      hideLoader();
+      return Promise.reject(error);
+  },
+);
+
+
 export default axiosInstance;
