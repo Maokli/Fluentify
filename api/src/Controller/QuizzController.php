@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Helpers;
+use App\Entity\UserQuizz;
 
 #[Route('/api')]
 class QuizzController extends AbstractController
@@ -74,7 +76,12 @@ class QuizzController extends AbstractController
         ];
         // $userInDb return instance of that user
         if ($answer == $correctAnswer){
-            $userInDb->addUserQuizz($quizz);
+            $userQuizz = new UserQuizz();
+            $userQuizz->setOwner($userInDb);
+            $userQuizz->setQuizz($quizz);
+            $entityManager->persist($userQuizz);
+            $userInDb->addUserQuizz($userQuizz);
+            
             $entityManager->persist($userInDb);
             $entityManager->flush();
         }
