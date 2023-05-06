@@ -4,12 +4,14 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    
     <link rel="stylesheet" href="../assets/style/bootstrap-5.0.2-dist/css/bootstrap.css">
     
     <link rel="stylesheet" href="../assets/style/style.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link rel="stylesheet" href="../assets/style/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Fluently</title>
   </head>
@@ -17,43 +19,42 @@
     
     <aside id="sidebar" class="sidebar" >
       <div class="d-flex align-items-center justify-content-between">
-        <a href="index.html" class="logo d-flex align-items-center">
+        <a href="languages.html" class="logo d-flex align-items-center">
           <img src="../assets/img/fluentify/fluentify.png" alt="">
         </a>
       </div>
       <hr>
       <ul class="sidebar-nav" id="sidebar-nav">
-  
         <li class="nav-item">
-          <a class="nav-link collapsed" href="dashboard.html">
-            <i class="bi bi-house-door"></i>
-            <span>Home</span>
+            <a class="nav-link collapsed" href="dashboard.html">
+                <i class="bi bi-house-door"></i>
+              <span>Home</span>
+            </a>
+          </li>
+          <hr>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="languages.html">
+            <i class="bi bi-translate"></i>
+            <span>Languages</span>
           </a>
         </li>
         <hr>
-      <li class="nav-item">
-        <a class="nav-link " href="index.html">
-          <i class="bi bi-translate"></i>
-          <span>Languages</span>
-        </a>
-      </li>
-      <hr>
         <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="quizzes.html">
+          <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-ui-checks"></i>
             <span>Quizzes</span>
           </a>
         </li>
         <hr>
         <li class="nav-item">
-          <a class="nav-link collapsed" href="users-profile.html">
+          <a class="nav-link" href="assistant.html">
             <i class="bi bi-person-badge-fill"></i>
             <span>Assistant</span>
           </a>
         </li>
         <hr>
         <li class="nav-item">
-          <a class="nav-link collapsed" href="profile.html">
+          <a class="nav-link collapsed" href="users-profile.html">
             <i class="bi bi-person"></i>
             <span>¨Profile</span>
           </a>
@@ -81,17 +82,11 @@
     </aside>
     <main id="main" class="main">
 
-      <div class="pagetitle">
-        <h1>Language Courses for English Speakers</h1>
-      </div>
-
-      <section class="section dashboard">
-        <div class="d-flex align-items-center justify-content-start flex-wrap" id="cardContainer">
-
+        <div class="pagetitle">
+          <h1>Welcome To Our assistant!</h1>
         </div>
-      </section>
+        
     </main>
-
-    <script src="../scripts/language.js" type="module"></script>
+    <script src="../scripts/assistant.js" type="module"></script>
   </body>
 </html>
