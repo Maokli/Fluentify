@@ -1,4 +1,4 @@
-import axiosInstance from './axiosInstanceClient.js';
+import axiosInstance from '../helpers/axiosInstanceClient.js';
 //creating a card for each language
 function createLanguageCard(language) {
   return `
