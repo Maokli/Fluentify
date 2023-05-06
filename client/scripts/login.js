@@ -1,3 +1,6 @@
+// navigating to this page is basically logging out
+localStorage.clear();
+
 function login(email, password) {
   const config = {
     headers: {
