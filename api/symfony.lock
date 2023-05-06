@@ -83,6 +83,18 @@
             "config/packages/nelmio_cors.yaml"
         ]
     },
+    "nyholm/psr7": {
+        "version": "1.8",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "a9f242fbadb1407681c019f38c67ab448b056341"
+        },
+        "files": [
+            "config/packages/nyholm_psr7.yaml"
+        ]
+    },
     "symfony/console": {
         "version": "6.2",
         "recipe": {

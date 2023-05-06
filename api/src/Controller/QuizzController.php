@@ -16,7 +16,7 @@ class QuizzController extends AbstractController
 {
 
     #[Route('/quizz/{id}', methods:"GET")]
-    public function getQuizzById(ManagerRegistry $doctrine, Request $request, int $id) : JsonResponse
+    public function getQuizzById(ManagerRegistry $doctrine, Request $request, int $id): JsonResponse
     {
         $entityManager = $doctrine->getManager();
         $quizz = $entityManager->getRepository(Quizz::class)->findOneByID($id);
@@ -30,6 +30,8 @@ class QuizzController extends AbstractController
             'question' => $quizz->getQuestions(),
             'option' => $quizz->getOptions(),
         ];
+
+        return new JsonResponse($response);
     }
 
     #[Route('/quizz/byCategoryAndLanguage/{categoryId}/{languageId}', methods: ['GET'])]
