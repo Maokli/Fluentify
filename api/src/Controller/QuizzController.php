@@ -61,10 +61,27 @@ class QuizzController extends AbstractController
         $answer = $body->answer;
         $quizz = $entityManager->getRepository(Quizz::class)->findOneByID($quizzId);
         $correctAnswer = $quizz->getAnswers();
+
+        $token = $headers['Authorization'];
+        $userInDb = Helpers\getUserFromToken($entityManager, $token);
+        if ($userInDb == null)
+            return $this->json([
+                'Error' => 'No user exists with this Email',
+            ], 404);
+
         $response = [
             'Answer' => $answer == $correctAnswer,
         ];
-    }
+        // $userInDb return instance of that user
+        if ($answer == $correctAnswer){
+            $userInDb->addUserQuizz($quizz);
+            $entityManager->persist($userInDb);
+            $entityManager->flush();
+        }
+         
+         return new JsonResponse($response, 200);	
+
+        }    
     //TODO: make this available to admins only
     #[Route('/admin/quizz/add', methods: "POST")]
     public function add(ManagerRegistry $doctrine, Request $request): JsonResponse
