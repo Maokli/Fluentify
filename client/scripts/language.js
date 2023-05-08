@@ -19,19 +19,54 @@ function createLanguageCard(language) {
   `;
 }
 
-axiosInstance.get('/languages')
-  .then(function (response) {
-    //getting languages from the database
-    const languages=response.data;
-    const cardContainer= document.querySelector('#cardContainer');
-    //injecting each card int the card container
-    languages.forEach(language=> {
-      const card = createLanguageCard(language);
-      const cardElement = document.createRange().createContextualFragment(card).firstElementChild;
-      cardContainer.appendChild(cardElement);
-    });
-    
-  })
-  .catch(function (error) {
-    console.log(error);
+function setAsJoined(button)
+{
+  button.disabled = true;
+  button.classList = "btn btn-success";
+  button.textContent = "Joined";
+}
+
+async function AddToFavourite(languageId, button) {
+  const payload = { id: languageId };
+
+  try {
+    // we call the api
+    await axiosInstance.post("languages/Favorite", payload);
+    // if no exceptions, we set it as joined
+    setAsJoined(button);
+
+  } catch (error) {
+    alert("something went wrong");
+  }
+}
+
+
+async function renderPage() {
+const allLanguagesResponse = await axiosInstance.get('/languages');
+  //getting languages from the database
+  const languages=allLanguagesResponse.data;
+  const cardContainer= document.querySelector('#cardContainer');
+
+  // gettung favourite languages
+  const favouriteLanguagesResponse = await axiosInstance.get('/languages/Favorite');
+  const favouriteLanguagesIds = favouriteLanguagesResponse.data.map(language => language.languageId);
+  //injecting each card int the card container
+  languages.forEach(language=> {
+    const card = createLanguageCard(language);
+    const cardElement = document.createRange().createContextualFragment(card).firstElementChild;
+    const joinBtn = cardElement.querySelector("button");
+    // langyuage is already favourited
+    if(favouriteLanguagesIds.includes(language.id))
+    {
+      setAsJoined(joinBtn);
+    }
+    else {
+      joinBtn.addEventListener("click", () => {
+        AddToFavourite(language.id, joinBtn);
+      })
+    }
+    cardContainer.appendChild(cardElement);
   });
+}
+
+renderPage();
