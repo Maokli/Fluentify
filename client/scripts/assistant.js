@@ -94,10 +94,10 @@ function renderChatSection(){
 
           <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div></div></div>
 
-          <div class="publisher bt-1 border-light">
+          <form class="publisher bt-1 border-light">
             <input class="publisher-input" type="text" placeholder="Write something">
-            <a class="publisher-btn text-info" href="#" data-abc="true"><i class="fa fa-paper-plane"></i></a>
-          </div>
+            <button class="publisher-btn text-info" type="submit" data-abc="true"><i class="fa fa-paper-plane"></i></a>
+          </form>
 
     </div>`
 
@@ -106,8 +106,9 @@ function renderChatSection(){
   main.innerHTML += chatHTML;
   renderAssistantResponse();
 
-  const sendButton = document.querySelector(".publisher-btn");
-  sendButton.addEventListener("click", () => {
+  const form = document.querySelector(".publisher");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
     const inputField = document.querySelector(".publisher-input");
     const inputContent = inputField.value;
     inputField.value = '';
