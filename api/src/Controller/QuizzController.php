@@ -41,9 +41,22 @@ class QuizzController extends AbstractController
     {
         $entityManager = $doctrine->getManager();
         $quizzList = $entityManager->getRepository(Quizz::class)->findByCategoryAndLanguage($categoryId, $languageId);
-
+        $headers = apache_request_headers();
+        $token = $headers['Authorization'];
+        
+        $userInDb = Helpers\getUserFromToken($entityManager, $token);
+        if($userInDb == null)
+            return $this->json([
+                'Error' => 'No user exists with this Email',
+            ], 404);
+        $userSolvedQuizzes = array_map(function($quizz) {
+            return $quizz->getQuizz()->getId(); // assuming the quiz object has a `getName()` method that returns the quiz name
+        }, $userInDb->getUserQuizzes()->toArray());
         $response = [];
         foreach ($quizzList as $quizz) {
+            if(!in_array($quizz->getId(), $userSolvedQuizzes)){
+                continue;
+            }
             $response[] = [
                 'id' => $quizz->getId(),
                 'question' => $quizz->getQuestions(),
@@ -63,7 +76,7 @@ class QuizzController extends AbstractController
         $answer = $body->answer;
         $quizz = $entityManager->getRepository(Quizz::class)->findOneByID($quizzId);
         $correctAnswer = $quizz->getAnswers();
-
+        $headers = apache_request_headers();
         $token = $headers['Authorization'];
         $userInDb = Helpers\getUserFromToken($entityManager, $token);
         if ($userInDb == null)

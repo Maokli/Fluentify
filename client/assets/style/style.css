@@ -86,6 +86,14 @@ body {
   border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
 }
 
+.big-card {
+  height: 80vh !important;
+  width: 80% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+}
 
 .card-header {
   display: -webkit-box;

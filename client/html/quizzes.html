@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="../assets/style/style.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link rel="stylesheet" href="../assets/style/bootstrap-icons/bootstrap-icons.css">
+    <link href="
+https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css
+" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Fluently</title>
   </head>
@@ -24,7 +27,7 @@
       <hr>
       <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link " href="dashboard.html">
+            <a class="nav-link collapsed" href="dashboard.html">
                 <i class="bi bi-house-door"></i>
               <span>Home</span>
             </a>
@@ -38,7 +41,7 @@
         </li>
         <hr>
         <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="quizzes.html">
+          <a class="nav-link " data-bs-target="#components-nav" data-bs-toggle="collapse" href="quizzes.html">
             <i class="bi bi-ui-checks"></i>
             <span>Quizzes</span>
           </a>
@@ -52,24 +55,20 @@
         </li>
         <hr>
         <li class="nav-item">
-          <a class="nav-link collapsed" href="login.html">
-              <i class="bi bi-box-arrow-left"></i><span>Logout</span>
-          </a>
-        </li>
+            <a class="nav-link collapsed" href="login.html">
+                <i class="bi bi-box-arrow-left"></i><span>Logout</span>
+            </a>
+          </li>
         <hr>
       </ul>
     </aside>
     <main id="main" class="main">
 
       <div class="pagetitle">
-        <h1>Welcome Home !</h1>
+        <h1>Welcome to our quizzes !</h1>
       </div>
-      <section class="section dashboard">
-          <div class="d-flex align-items-center justify-content-start flex-wrap" id="cardContainer">
-    
-          </div>
-        </section>
+
     </main>
-    <script src="../scripts/dashboard.js" type="module"></script>
+    <script src="../scripts/quizzes.js" type="module"></script>
   </body>
 </html>
