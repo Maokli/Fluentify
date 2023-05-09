@@ -42,6 +42,7 @@ class DashboardController extends AbstractController
             $data[]= [
                 "languageId" => $languageInDb->getId(),
                 "languageName" => $languageInDb->getName(),
+                "photo" => $languageInDb->getPhotoUrl(),
                 "progress" => $solvedQuizzes / $totalQuizzesByLanguage,
             ];
         }
