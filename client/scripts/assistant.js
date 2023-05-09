@@ -1,22 +1,20 @@
-import axiosInstance from '../helpers/axiosInstanceClient.js';
+import axiosInstance from "../helpers/axiosInstanceClient.js";
 
-const DIFFICULITY_LEVELS = ["Beginner", "Intermediate", "Advanced"]
+const DIFFICULITY_LEVELS = ["Beginner", "Intermediate", "Advanced"];
 const USER_LANGUAGES = [];
 let messages = null;
 
-
 async function getUserLanguages() {
-  const response = await axiosInstance.get('/languages/Favorite');
+  const response = await axiosInstance.get("/languages/Favorite");
 
   //getting languages from the database
-  const languages=response.data;
+  const languages = response.data;
 
   //injecting each card int the card container
-  languages.forEach(language=> {
+  languages.forEach((language) => {
     USER_LANGUAGES.push(language.languageName);
   });
 }
-
 
 function getCard(text) {
   /*
@@ -27,7 +25,7 @@ function getCard(text) {
     </div> 
   */
 
-  const col = document.createElement('div');
+  const col = document.createElement("div");
   col.className = "col";
   const card = document.createElement("div");
   card.className = "card hoverable px-3 py-5";
@@ -38,16 +36,15 @@ function getCard(text) {
   card.appendChild(title);
   col.appendChild(card);
 
-
   return col;
 }
 
 async function renderLanguageSelection() {
   await getUserLanguages();
   const main = document.querySelector("main");
-  const container = document.createElement('div');
+  const container = document.createElement("div");
   container.className = "row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4";
-  USER_LANGUAGES.forEach(language => {
+  USER_LANGUAGES.forEach((language) => {
     const languageCard = getCard(language);
 
     languageCard.addEventListener("click", () => {
@@ -64,9 +61,9 @@ async function renderLanguageSelection() {
 
 function renderDifficulitySelection() {
   const main = document.querySelector("main");
-  const container = document.createElement('div');
+  const container = document.createElement("div");
   container.className = "row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4";
-  DIFFICULITY_LEVELS.forEach(difficulity => {
+  DIFFICULITY_LEVELS.forEach((difficulity) => {
     const difficulityCard = getCard(difficulity);
 
     difficulityCard.addEventListener("click", () => {
@@ -81,7 +78,7 @@ function renderDifficulitySelection() {
   main.appendChild(container);
 }
 
-function renderChatSection(){
+function renderChatSection() {
   const chatHTML = `
     <div class="card card-bordered">
           <div class="card-header">
@@ -99,9 +96,8 @@ function renderChatSection(){
             <button class="publisher-btn text-info" type="submit" data-abc="true"><i class="fa fa-paper-plane"></i></a>
           </form>
 
-    </div>`
+    </div>`;
 
-  
   const main = document.querySelector("main");
   main.innerHTML += chatHTML;
   renderAssistantResponse();
@@ -111,20 +107,20 @@ function renderChatSection(){
     e.preventDefault();
     const inputField = document.querySelector(".publisher-input");
     const inputContent = inputField.value;
-    inputField.value = '';
-    const userMessage = {role: "user", content: inputContent};
+    inputField.value = "";
+    const userMessage = { role: "user", content: inputContent };
     messages.push(userMessage);
-    
+
     renderUserMessage(inputContent);
     renderAssistantResponse();
-  })
+  });
 }
 
 async function getAssistantResposne() {
   const payload = {
-    language:  window.language,
+    language: window.language,
     level: window.difficulity,
-    messages: messages
+    messages: messages,
   };
   const response = await axiosInstance.post("/assistant", payload);
 
@@ -144,18 +140,21 @@ async function renderAssistantResponse() {
   const assistantResponse = await getAssistantResposne();
   const assistantMessage = assistantResponse.response;
   messages = assistantResponse.history;
-  const assistantMessageObject = {role: "assistant", content: assistantMessage};
+  const assistantMessageObject = {
+    role: "assistant",
+    content: assistantMessage,
+  };
   messages.push(assistantMessageObject);
   const assistantHtmlMessage = getAssistantHtmlMessage(assistantMessage);
   const chatContent = document.querySelector("#chat-content");
   chatContent.innerHTML += assistantHtmlMessage;
 
   // scroll to bottom
-  chatContent.scrollTop = chatContent.scrollHeight; 
+  chatContent.scrollTop = chatContent.scrollHeight;
 }
 
 function getAssistantHtmlMessage(message) {
-   return `<div class="media media-chat">
+  return `<div class="media media-chat">
               <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
               <div class="media-body">
                 <p>${message}</p>
@@ -168,7 +167,7 @@ function getUserHtmlMessage(message) {
             <div class="media-body">
               <p>${message}</p>
             </div>
-          </div>`
+          </div>`;
 }
 
 renderDifficulitySelection();

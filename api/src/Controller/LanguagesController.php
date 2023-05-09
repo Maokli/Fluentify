@@ -117,6 +117,4 @@ class LanguagesController extends AbstractController
         }
         return $this->json(["message" => "Added Successfully"]);
     }
-
-
 }

@@ -17,7 +17,7 @@ use App\Entity\UserQuizz;
 class QuizzController extends AbstractController
 {
 
-    #[Route('/quizz/{id}', methods:"GET")]
+    #[Route('/quizz/{id}', methods: "GET")]
     public function getQuizzById(ManagerRegistry $doctrine, Request $request, int $id): JsonResponse
     {
         $entityManager = $doctrine->getManager();
@@ -43,18 +43,18 @@ class QuizzController extends AbstractController
         $quizzList = $entityManager->getRepository(Quizz::class)->findByCategoryAndLanguage($categoryId, $languageId);
         $headers = apache_request_headers();
         $token = $headers['Authorization'];
-        
+
         $userInDb = Helpers\getUserFromToken($entityManager, $token);
-        if($userInDb == null)
+        if ($userInDb == null)
             return $this->json([
                 'Error' => 'No user exists with this Email',
             ], 404);
-        $userSolvedQuizzes = array_map(function($quizz) {
+        $userSolvedQuizzes = array_map(function ($quizz) {
             return $quizz->getQuizz()->getId(); // assuming the quiz object has a `getName()` method that returns the quiz name
         }, $userInDb->getUserQuizzes()->toArray());
         $response = [];
         foreach ($quizzList as $quizz) {
-            if(!in_array($quizz->getId(), $userSolvedQuizzes)){
+            if (in_array($quizz->getId(), $userSolvedQuizzes)) {
                 continue;
             }
             $response[] = [
@@ -66,9 +66,9 @@ class QuizzController extends AbstractController
 
         return new JsonResponse($response, 200);
     }
-    
+
     #[Route('/quizz/check', methods: ['POST'])]
-    public function checkQuizzAnswer( ManagerRegistry $doctrine , Request $request) : JsonResponse
+    public function checkQuizzAnswer(ManagerRegistry $doctrine, Request $request): JsonResponse
     {
         $entityManager = $doctrine->getManager();
         $body = json_decode($request->getContent());
@@ -88,20 +88,19 @@ class QuizzController extends AbstractController
             'Answer' => $answer == $correctAnswer,
         ];
         // $userInDb return instance of that user
-        if ($answer == $correctAnswer){
+        if ($answer == $correctAnswer) {
             $userQuizz = new UserQuizz();
             $userQuizz->setOwner($userInDb);
             $userQuizz->setQuizz($quizz);
             $entityManager->persist($userQuizz);
             $userInDb->addUserQuizz($userQuizz);
-            
+
             $entityManager->persist($userInDb);
             $entityManager->flush();
         }
-         
-         return new JsonResponse($response, 200);	
 
-        }    
+        return new JsonResponse($response, 200);
+    }
     //TODO: make this available to admins only
     #[Route('/admin/quizz/add', methods: "POST")]
     public function add(ManagerRegistry $doctrine, Request $request): JsonResponse
