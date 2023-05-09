@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Language;
+use App\Entity\Quizz;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -38,7 +39,14 @@ class DashboardController extends AbstractController
         {
             $languageInDb = $languagesRepo->findOneById($userLanguage);
             $totalQuizzesByLanguage = $languageInDb->getQuizzs()->count();
-            $solvedQuizzes = $userInDb->getUserQuizzes()->count();
+            $userQuizzes = $userInDb->getUserQuizzes()->toArray();
+            // solved quizzes with the given language id only
+            $userQuizzesByLanguage = array_filter($userQuizzes, function($value) use ($userLanguage) {
+                $quizz = $value->getQuizz();
+
+                return $quizz->getLanguage()->getId() == $userLanguage;
+            });
+            $solvedQuizzes = count($userQuizzesByLanguage);
             $data[]= [
                 "languageId" => $languageInDb->getId(),
                 "languageName" => $languageInDb->getName(),

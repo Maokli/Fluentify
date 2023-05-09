@@ -193,10 +193,15 @@ h4.card-title {
   text-transform: uppercase;
 }
 
+#chat-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
 .media-chat .media-body {
   -webkit-box-flex: initial;
   flex: initial;
-  display: table;
+  max-width: 70%;
 }
 
 .media-body {
@@ -264,10 +269,13 @@ h4.card-title {
 
 .media-chat.media-chat-reverse {
   padding-right: 12px;
-  padding-left: 60vw;
+  padding-left: 40%;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: reverse;
-  flex-direction: row-reverse;
+}
+
+.media-chat-reverse>.media-body {
+  float: right;
 }
 
 .media-chat {
