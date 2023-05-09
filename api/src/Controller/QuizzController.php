@@ -49,12 +49,16 @@ class QuizzController extends AbstractController
             return $this->json([
                 'Error' => 'No user exists with this Email',
             ], 404);
+        // get the ids of solved quizzes
         $userSolvedQuizzes = array_map(function($quizz) {
-            return $quizz->getQuizz()->getId(); // assuming the quiz object has a `getName()` method that returns the quiz name
+            return $quizz->getQuizz()->getId();
         }, $userInDb->getUserQuizzes()->toArray());
+
         $response = [];
         foreach ($quizzList as $quizz) {
-            if(!in_array($quizz->getId(), $userSolvedQuizzes)){
+            // if the id of the current quizz exists in the solved quizzes array, we don't return it
+            if(in_array($quizz->getId(), $userSolvedQuizzes)){
+                echo $quizz->getId();
                 continue;
             }
             $response[] = [
