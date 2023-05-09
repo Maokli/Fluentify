@@ -50,12 +50,16 @@ function getCard(text) {
   const col = document.createElement("div");
   col.className = "col";
   const card = document.createElement("div");
-  card.className = "card hoverable px-3 py-5";
+  card.className = "card hoverable px-3 py-5 animated-card";
+  const banner=document.createElement("div");
+  banner.className="banner";
   const title = document.createElement("h2");
-  title.className = "text-center";
+  title.className = "text-center ";
   title.innerText = text;
+  title.style.zIndex="2";
 
   card.appendChild(title);
+  card.appendChild(banner);
   col.appendChild(card);
 
   return col;
@@ -269,8 +273,21 @@ async function renderQuizz() {
     const option2 = QUIZZ_OPTION2[currentQuizIndex];
     const option3 = QUIZZ_OPTION3[currentQuizIndex];
     const quizzCard = createQuizzCard(question, option1, option2, option3);
-    container.innerHTML = "";
+    if (question === undefined) {
+      toastr.success("Congratulations! You have completed all quizzes.");
+      const messageContainer = document.createElement("div");
+      messageContainer.className = "d-flex justify-content-center";
+      const message = document.createElement("p");
+      message.textContent =
+        "Congratulations, you have completed all the quizzes! More quizzes will be coming soon.";
+      main.innerHTML = "";
+      main.appendChild(message);
+    }
+    else {
+         container.innerHTML = "";
     container.appendChild(quizzCard);
+    }
+ 
   };
 
   // Render the first quiz
@@ -305,7 +322,7 @@ async function renderQuizz() {
             messageContainer.className = "d-flex justify-content-center";
             const message = document.createElement("p");
             message.textContent =
-              "Congratulations, you have completed the quiz! More quizzes will be coming soon.";
+              "Congratulations, you have completed all the quizzes! More quizzes will be coming soon.";
             main.innerHTML = "";
             main.appendChild(message);
           }
