@@ -1,102 +1,145 @@
 <!DOCTYPE html>
-<html lang="en" class="light-style customizer-hide" dir="ltr" data-theme="theme-default" data-assets-path="../assets/"
-  data-template="vertical-menu-template-free">
+<html
+  lang="en"
+  class="light-style customizer-hide"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="../assets/"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-widtqh, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-widtqh, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Fluentify Login</title>
 
-  <title>Fluentify Login </title>
+    <meta name="description" content="" />
 
-  <meta name="description" content="" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="../assets/img/fluentify/fluentify.ico"
+    />
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
 
-  <link rel="icon" type="image/x-icon" href="../assets/img/fluentify/fluentify.ico" />
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../assets/vendor/css/style.css" />
+    <link rel="stylesheet" href="../assets/vendor/css/global.css" />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-    rel="stylesheet" />
+    <!-- Page CSS -->
+    <!-- Page -->
+    <link rel="stylesheet" href="../assets/vendor/css/pages/page-auth.css" />
+  </head>
 
+  <body>
+    <!-- Content -->
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+          <!-- Register -->
+          <div class="card">
+            <div class="card-body">
+              <!-- Logo -->
+              <div class="app-brand justify-content-center">
+                <img
+                  src="../assets/img/fluentify/fluentify.png"
+                  class="img-fluid"
+                />
+              </div>
+              <!-- /Logo -->
+              <h4 class="mb-2">Welcome to Fluentify! 👋</h4>
+              <p class="mb-4">
+                Please sign-in to your account and start the adventure
+              </p>
 
-  <!-- Core CSS -->
-  <link rel="stylesheet" href="../assets/vendor/css/style.css" />
-  <link rel="stylesheet" href="../assets/vendor/css/global.css" />
+              <form
+                id="formAuthentication"
+                class="mb-3"
+                onsubmit="submitForm(event)"
+                method="POST"
+              >
+                <div class="mb-3">
+                  <label for="email" class="form-label"
+                    >Email or Username</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email or username"
+                    autofocus
+                    required
+                  />
+                </div>
+                <div class="mb-3 form-password-toggle">
+                  <div class="d-flex justify-content-between">
+                    <label class="form-label" for="password">Password</label>
+                  </div>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      id="password"
+                      class="form-control"
+                      name="password"
+                      aria-describedby="password"
+                      required
+                    />
+                    <span
+                      class="input-group-text"
+                      onclick="PasswordShowHide();"
+                    >
+                      <i class="fas fa-eye" id="show_eye"></i>
+                      <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="remember-me"
+                    />
+                    <label class="form-check-label" for="remember-me">
+                      Remember Me
+                    </label>
+                  </div>
+                </div>
+                <div class="mb-3 text-danger" id="message"></div>
+                <div class="mb-3">
+                  <button class="btn btn-primary d-grid w-100" type="submit">
+                    Sign in
+                  </button>
+                </div>
+              </form>
 
-
-  <!-- Page CSS -->
-  <!-- Page -->
-  <link rel="stylesheet" href="../assets/vendor/css/pages/page-auth.css" />
-</head>
-
-<body>
-  <!-- Content -->
-  <div class="container-xxl">
-    <div class="authentication-wrapper authentication-basic container-p-y">
-      <div class="authentication-inner">
-        <!-- Register -->
-        <div class="card">
-          <div class="card-body">
-            <!-- Logo -->
-            <div class="app-brand justify-content-center">
-              <img src="../assets/img/fluentify/fluentify.png" class="img-fluid" />
+              <p class="text-center">
+                <span>New on our platform?</span>
+                <a href="register.html">
+                  <span>Create an account</span>
+                </a>
+              </p>
             </div>
-            <!-- /Logo -->
-            <h4 class="mb-2">Welcome to Fluentify! 👋</h4>
-            <p class="mb-4">Please sign-in to your account and start the adventure</p>
-
-            <form id="formAuthentication" class="mb-3" onsubmit="submitForm(event)" method="POST">
-              <div class="mb-3">
-                <label for="email" class="form-label">Email or Username</label>
-                <input type="text" class="form-control" id="email" name="email"
-                  placeholder="Enter your email or username" autofocus required />
-              </div>
-              <div class="mb-3 form-password-toggle">
-                <div class="d-flex justify-content-between">
-                  <label class="form-label" for="password">Password</label>
-                </div>
-                <div class="input-group input-group-merge">
-                  <input type="password" id="password" class="form-control" name="password" aria-describedby="password"
-                    required />
-                  <span class="input-group-text" onclick="PasswordShowHide();">
-                    <i class="fas fa-eye" id="show_eye"></i>
-                    <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
-                  </span>
-                </div>
-              </div>
-              <div class="mb-3">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="remember-me" />
-                  <label class="form-check-label" for="remember-me"> Remember Me </label>
-                </div>
-              </div>
-              <div class="mb-3 text-danger" id="message">
-
-              </div>
-              <div class="mb-3">
-                <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
-              </div>
-            </form>
-
-            <p class="text-center">
-              <span>New on our platform?</span>
-              <a href="register.html">
-                <span>Create an account</span>
-              </a>
-            </p>
           </div>
+          <!-- /Register -->
         </div>
-        <!-- /Register -->
       </div>
     </div>
-  </div>
 
-  <script src="../assets/js/HideFunctionality.js"></script>
-  <script src="../scripts/login.js"></script>
-  <!-- / Content -->
-</body>
-
+    <script src="../assets/js/HideFunctionality.js"></script>
+    <script src="../scripts/login.js"></script>
+    <!-- / Content -->
+  </body>
 </html>
