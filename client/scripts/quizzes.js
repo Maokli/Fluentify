@@ -12,6 +12,7 @@ const QUIZZ_OPTION1 = [];
 const QUIZZ_OPTION2 = [];
 const QUIZZ_OPTION3 = [];
 
+//This function fetches the user's languages and stores the names,id and photos in their respective arrays
 async function getUserLanguages() {
   const response = await axiosInstance.get("/languages/Favorite");
 
@@ -23,6 +24,7 @@ async function getUserLanguages() {
     USER_LANGUAGES_PHOTOS.push(language.photoUrl);
   });
 }
+//This function fetches the quizzes categories and stores the names and ids in their respective arrays
 async function getCategoryQuizzes() {
   const response = await axiosInstance.get(
     "http://127.0.0.1:8000/api/categories"
@@ -35,11 +37,12 @@ async function getCategoryQuizzes() {
     QUIZZ_CATEGORY_ID.push(quizz.id);
   });
 }
+//This function renders the quizzes category's cards
 function getCard(text) {
   /*
       <div class="col">
         <div class="card hoverable px-3 py-5">
-          <h2 class="text-center">Beginner</h2>
+          <h2 class="text-center">Grammar</h2>
         </div>
       </div>
     */
@@ -57,6 +60,7 @@ function getCard(text) {
 
   return col;
 }
+//This function creates the language's cards
 
 function createLanguageCard(photo, languageName) {
   const col = document.createElement("div");
@@ -91,15 +95,13 @@ function createLanguageCard(photo, languageName) {
 
   return col;
 }
-
+//THis function fetches the languages and creates language cards
 async function renderLanguageSelection() {
-  /*
-    
-    */
   await getUserLanguages();
   const main = document.querySelector("main");
   const container = document.createElement("div");
   container.className = "row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4";
+  //This loop creates the language cards and adds an event listener to each one
   USER_LANGUAGES_NAMES.forEach((language) => {
     const languageCard = createLanguageCard(
       USER_LANGUAGES_PHOTOS[USER_LANGUAGES_NAMES.indexOf(language)],
@@ -117,12 +119,13 @@ async function renderLanguageSelection() {
 
   main.appendChild(container);
 }
-
+//This function renders the quizz category selection
 async function renderQuizzCategorySelection() {
   await getCategoryQuizzes();
   const main = document.querySelector("main");
   const container = document.createElement("div");
   container.className = "row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4";
+  //This loop creates the quizz category cards and adds an event listener to each one
   QUIZZ_CATEGORY.forEach((category) => {
     const categoryCard = getCard(category);
 
@@ -137,12 +140,13 @@ async function renderQuizzCategorySelection() {
 
   main.appendChild(container);
 }
-
+//this function gets the quizz's question and options
 async function getQuizzQuestionOptions(languageId, categoryId) {
   const response = await axiosInstance.get(
     `http://127.0.0.1:8000/api/quizz/byCategoryAndLanguage/${categoryId}/${languageId}`
   );
   const quizzes = response.data;
+  //This loop stores the quizz's question and options in their respective arrays
   quizzes.forEach((quizz) => {
     QUIZZ_QUESTION.push(quizz.question);
     QUIZZ_ID.push(quizz.id);
@@ -158,6 +162,7 @@ async function getQuizzQuestionOptions(languageId, categoryId) {
     );
   });
 }
+//this function checks the answer and returns whether it's correct or not
 async function checkAnswer(quizzId, answer) {
   const data = {
     quizzId: quizzId,
@@ -170,7 +175,7 @@ async function checkAnswer(quizzId, answer) {
 
   return response.data.Answer;
 }
-
+//this function creates the quizz's card
 function createQuizzCard(question, option1, option2, option3) {
   const card = document.createElement("div");
   card.className = "card";
@@ -212,7 +217,7 @@ function createQuizzCard(question, option1, option2, option3) {
 
   return cardContainer;
 }
-
+//an assistan function to create the quizz's card
 function createFormCheck(labelText, name) {
   const formCheck = document.createElement("div");
   formCheck.className = "form-check";
@@ -228,7 +233,7 @@ function createFormCheck(labelText, name) {
   formCheck.appendChild(label);
   return formCheck;
 }
-
+//this function creates the next button
 function createNextButton() {
   const buttonContainer = document.createElement("div");
   buttonContainer.className = "d-flex justify-content-end";
@@ -243,7 +248,7 @@ function createNextButton() {
   buttonContainer.appendChild(nextButton);
   return buttonContainer;
 }
-
+//this function renders the quizzes cards and logic
 async function renderQuizz() {
   await getQuizzQuestionOptions(
     USER_LANGUAGES_IDS[USER_LANGUAGES_NAMES.indexOf(window.language)],
@@ -286,21 +291,30 @@ async function renderQuizz() {
         const isCorrect = await checkAnswer(QUIZZ_ID[currentQuizIndex], answer);
         if (isCorrect) {
           // Move on to the next quiz
+          // Display a success message using toastr
           toastr.success("Correct answer!");
           currentQuizIndex++;
+          // Check if there are more quizzes
           if (currentQuizIndex < QUIZZ_QUESTION.length) {
             renderCurrentQuiz();
           } else {
             // The user has completed all quizzes
-            // Show a message or redirect to another page
+            // Display a success message indicating that you have finished all quizzes using toastr
             toastr.success("Congratulations! You have completed all quizzes.");
+            const messageContainer = document.createElement("div");
+            messageContainer.className = "d-flex justify-content-center";
+            const message = document.createElement("p");
+            message.textContent =
+              "Congratulations, you have completed the quiz! More quizzes will be coming soon.";
+            main.innerHTML = "";
+            main.appendChild(message);
           }
         } else {
-          // Display an error message or try again
+          // Display an error message using toastr
           toastr.error("Sorry, wrong answer. Please try again.");
         }
       } else {
-        // Display an error message if no option is selected
+        // Display an error message if no option is selected using toastr
         toastr.error("Please select an option.");
       }
     }
