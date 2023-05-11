@@ -1,4 +1,4 @@
-import axiosInstance from "../helpers/axiosInstanceClient";
+import axiosInstance from "../helpers/axiosInstanceClient.js";
 
 function register(email, password, firstName, lastName) {
   const data = {
@@ -54,3 +54,5 @@ function submitForm(event) {
 
   register(email, password, firstName, lastName);
 }
+
+document.querySelector("form").addEventListener("submit", e => submitForm(e));

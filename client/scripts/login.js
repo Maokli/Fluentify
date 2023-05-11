@@ -1,4 +1,4 @@
-import axiosInstance from "../helpers/axiosInstanceClient";
+import axiosInstance from "../helpers/axiosInstanceClient.js";
 
 // navigating to this page is basically logging out
 localStorage.clear();
@@ -30,3 +30,4 @@ function submitForm(event) {
   const password = event.target.elements.password.value;
   login(email, password);
 }
+document.querySelector("form").addEventListener("submit", e => submitForm(e));
