@@ -1,16 +1,9 @@
+import axiosInstance from "../helpers/axiosInstanceClient";
+
 // navigating to this page is basically logging out
 localStorage.clear();
 
 function login(email, password) {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, PUT, GET, DELETE",
-      "Access-Control-Allow-Headers": "*",
-      "Access-Control-Max-Age": "3600",
-    },
-  };
   const data = {
     username: email,
     password: password,
@@ -21,8 +14,8 @@ function login(email, password) {
     a.innerHTML = "Invalid email or password";
   }
 
-  axios
-    .post("https://fluentify.onrender.com/api/login_check", data, config)
+  axiosInstance
+    .post("/login_check", data)
     .then((response) => {
       localStorage.setItem("token", response.data.token);
       // after login page redirect to dashboard page

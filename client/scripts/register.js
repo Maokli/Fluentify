@@ -1,13 +1,6 @@
+import axiosInstance from "../helpers/axiosInstanceClient";
+
 function register(email, password, firstName, lastName) {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, PUT, GET, DELETE",
-      "Access-Control-Allow-Headers": "*",
-      "Access-Control-Max-Age": "3600",
-    },
-  };
   const data = {
     email: email,
     password: password,
@@ -15,8 +8,8 @@ function register(email, password, firstName, lastName) {
     lastName: lastName,
   };
 
-  axios
-    .post("https://fluentify.onrender.com/api/register", data, config)
+  axiosInstance
+    .post("/register", data)
     .then((response) => {
       console.log(response.data.message);
       if (response.data.message === "Registered Successfully") {
