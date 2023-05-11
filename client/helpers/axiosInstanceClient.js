@@ -1,7 +1,7 @@
 import { showLoader, hideLoader } from "./loader.js";
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'https://fluentify.onrender.com/api',
     headers: {
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
       "Access-Control-Allow-Origin": "*",

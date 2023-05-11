@@ -26,9 +26,7 @@ async function getUserLanguages() {
 }
 //This function fetches the quizzes categories and stores the names and ids in their respective arrays
 async function getCategoryQuizzes() {
-  const response = await axiosInstance.get(
-    "http://127.0.0.1:8000/api/categories"
-  );
+  const response = await axiosInstance.get("/categories");
 
   const quizzes = response.data;
 
@@ -146,8 +144,7 @@ async function renderQuizzCategorySelection() {
 }
 //this function gets the quizz's question and options
 async function getQuizzQuestionOptions(languageId, categoryId) {
-  const response = await axiosInstance.get(
-    `http://127.0.0.1:8000/api/quizz/byCategoryAndLanguage/${categoryId}/${languageId}`
+  const response = await axiosInstance.get(`/quizz/byCategoryAndLanguage/${categoryId}/${languageId}`
   );
   const quizzes = response.data;
   //This loop stores the quizz's question and options in their respective arrays
@@ -172,10 +169,7 @@ async function checkAnswer(quizzId, answer) {
     quizzId: quizzId,
     answer: answer,
   };
-  const response = await axiosInstance.post(
-    "http://127.0.0.1:8000/api/quizz/check",
-    data
-  );
+  const response = await axiosInstance.post("/quizz/check",data);
 
   return response.data.Answer;
 }

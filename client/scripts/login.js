@@ -22,7 +22,7 @@ function login(email, password) {
   }
 
   axios
-    .post("http://127.0.0.1:8000/api/login_check", data, config)
+    .post("https://fluentify.onrender.com/api/login_check", data, config)
     .then((response) => {
       localStorage.setItem("token", response.data.token);
       // after login page redirect to dashboard page

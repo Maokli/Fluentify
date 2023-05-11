@@ -16,7 +16,7 @@ function register(email, password, firstName, lastName) {
   };
 
   axios
-    .post("http://127.0.0.1:8000/api/register", data, config)
+    .post("https://fluentify.onrender.com/api/register", data, config)
     .then((response) => {
       console.log(response.data.message);
       if (response.data.message === "Registered Successfully") {
