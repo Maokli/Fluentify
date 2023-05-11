@@ -34,7 +34,8 @@ RUN composer update
 RUN composer i
 RUN php bin/console lexik:jwt:generate-keypair
 
-# run the server
-CMD symfony server:start
 
 EXPOSE 8000
+
+# run the server
+CMD symfony server:start
